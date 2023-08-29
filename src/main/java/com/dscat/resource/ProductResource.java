@@ -1,6 +1,5 @@
 package com.dscat.resource;
 
-import com.dscat.model.dto.CategoryDTO;
 import com.dscat.model.dto.ProductDTO;
 import com.dscat.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,9 @@ public class ProductResource {
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy) {
         PageRequest pageRequest = PageRequest.of(
-                page,linesPerPage, Sort.Direction.valueOf(direction),orderBy);
+                page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         Page<ProductDTO> productDTOS = productService.findAllPages(pageRequest);
         return ResponseEntity.ok().body(productDTOS);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-        ProductDTO productDTO = productService.findById(id);
-        return ResponseEntity.ok().body(productDTO);
     }
 
     @PostMapping

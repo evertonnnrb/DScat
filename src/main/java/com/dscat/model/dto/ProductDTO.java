@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 public class ProductDTO implements Serializable {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String description;
     private Double price;
@@ -28,7 +28,7 @@ public class ProductDTO implements Serializable {
     @Setter(AccessLevel.NONE)
     private List<CategoryDTO> categories = new ArrayList<CategoryDTO>();
 
-    public ProductDTO(Integer id, String name, String description, Double price, String imgUrl, Instant date) {
+    public ProductDTO(Long id, String name, String description, Double price, String imgUrl, Instant date) {
         this.id = id;
         this.name = name;
         this.description = description;
