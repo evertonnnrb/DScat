@@ -6,6 +6,7 @@ import com.dscat.model.Role;
 import com.dscat.model.User;
 import com.dscat.model.dto.RoleDTO;
 import com.dscat.model.dto.UserDTO;
+import com.dscat.model.dto.UserInsertDTO;
 import com.dscat.repository.RoleRepository;
 import com.dscat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
+
+    @Autowired
+    public BCryptPasswordEncoder passwordEncoder;
     @Autowired
     public UserRepository userRepository;
 
@@ -45,9 +50,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO save(UserDTO userDTO) {
+    public UserDTO save(UserInsertDTO userDTO) {
         User user = new User();
         createEntity(userDTO, user);
+        user.setPassword(passwordEncoder.encode(userDTO.getPasswd()));
         user = userRepository.save(user);
         return new UserDTO(user);
     }
