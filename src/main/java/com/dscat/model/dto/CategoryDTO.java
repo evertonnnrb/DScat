@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @NoArgsConstructor
@@ -13,6 +15,9 @@ import java.io.Serializable;
 @Setter
 public class CategoryDTO implements Serializable {
     private Long id;
+
+    @NotBlank(message = "data cannot be empty")
+    @NotNull(message = "data cannot ne null")
     private String name;
 
     public CategoryDTO(Category category){

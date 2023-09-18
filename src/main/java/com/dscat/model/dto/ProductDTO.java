@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,10 +22,20 @@ import java.util.Set;
 public class ProductDTO implements Serializable {
 
     private Long id;
+
+    @NotBlank(message = "data cannot be empty")
     private String name;
+
+    @NotBlank(message = "data cannot be empty")
     private String description;
+
+    @Positive(message = "priva must be positive")
+    @NotBlank(message = "data cannot be empty")
     private Double price;
+
     private String imgUrl;
+
+    @PastOrPresent(message = "date is invalid")
     private Instant date;
 
     @Setter(AccessLevel.NONE)
