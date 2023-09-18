@@ -53,7 +53,7 @@ public class UserService {
     public UserDTO save(UserInsertDTO userDTO) {
         User user = new User();
         createEntity(userDTO, user);
-        user.setPassword(passwordEncoder.encode(userDTO.getPasswd()));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user = userRepository.save(user);
         return new UserDTO(user);
     }
