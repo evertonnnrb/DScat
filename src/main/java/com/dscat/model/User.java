@@ -1,5 +1,6 @@
 package com.dscat.model;
 
+import com.dscat.service.validation.UserInsertValid;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
 
     @Column(unique = true)
