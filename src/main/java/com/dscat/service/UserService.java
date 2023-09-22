@@ -10,11 +10,16 @@ import com.dscat.model.dto.UserInsertDTO;
 import com.dscat.model.dto.UserUpdateDTO;
 import com.dscat.repository.RoleRepository;
 import com.dscat.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +30,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public BCryptPasswordEncoder passwordEncoder;
@@ -97,5 +103,16 @@ public class UserService {
         Page<User> users = userRepository.findAll(pageRequest);
         return users.map(x -> new UserDTO(x));
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user == null){
+            logger.error("User not found "+username);
+            throw  new UsernameNotFoundException("User not found");
+        }
+        logger.info("User found : "+username);
+        return user;
     }
 }
