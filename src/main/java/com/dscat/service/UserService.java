@@ -7,6 +7,7 @@ import com.dscat.model.User;
 import com.dscat.model.dto.RoleDTO;
 import com.dscat.model.dto.UserDTO;
 import com.dscat.model.dto.UserInsertDTO;
+import com.dscat.model.dto.UserUpdateDTO;
 import com.dscat.repository.RoleRepository;
 import com.dscat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User user = userRepository.getReferenceById(id);
             user.setFirstName(dto.getFirstName());
